@@ -1,6 +1,5 @@
 <?php
 
-// app/Http/Controllers/PythonExecutorController.php
 namespace App\Http\Controllers;
 
 use App\Jobs\ExecutePythonCode;
