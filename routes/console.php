@@ -8,5 +8,5 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 Artisan::command('test', function () {
-    $this->info(Process::run('mkdir as')->errorOutput());
+    $this->info(Process::input('print(5+5)')->run('python')->output());
     });
