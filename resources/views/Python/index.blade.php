@@ -16,7 +16,7 @@
             height: 200px;
             padding: 10px;
             margin: 10px 0;
-            font-family: monospace;
+            font-family: "Cascadia Code",monospace;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
@@ -42,7 +42,7 @@
             border-radius: 4px;
             min-height: 100px;
             white-space: pre-wrap;
-            font-family: monospace;
+            font-family: Consolas, monospace;
         }
     </style>
 </head>
