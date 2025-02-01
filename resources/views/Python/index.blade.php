@@ -62,23 +62,25 @@
         outputElement.textContent = 'Exécution en cours...';
 
         try {
-            const response = await fetch('/execute-python', {
+            // envoie une requete post
+            const response = await fetch('/execute-python', { // apelle la methode execute() du controleur
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                 },
-                body: JSON.stringify({ code })
+                body: JSON.stringify({ code }) // envoie le code sous forme de JSON
             });
 
-            const { execution_id } = await response.json();
+            const { execution_id } = await response.json(); // récupération de l'id de l'exécution
 
             const checkResult = async () => {
-                const resultResponse = await fetch(`/python-result/${execution_id}`);
-                const result = await resultResponse.json();
+                // envoie une requete get pour recuperer le resultat
+                const resultResponse = await fetch(`/python-result/${execution_id}`); // appelle la methode getResult() du controleur
+                const result = await resultResponse.json(); // recuperation du resultat contenu dans le cache
 
                 if (result.output !== undefined) {
-                    outputElement.textContent = result.output || 'Aucune sortie';
+                    outputElement.textContent = result.output || 'Aucune sortie'; // affichage du resultat sur la vue
                     return;
                 }
 
