@@ -14,9 +14,10 @@ class ExecutePythonCode implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $code;
-    private $executionId;
+    private $code; // Code à exécuter
+    private $executionId; // id généré par le contrôleur
 
+    // initialisation
     public function __construct(string $code, string $executionId)
     {
         $this->code = $code;
@@ -25,21 +26,23 @@ class ExecutePythonCode implements ShouldQueue
 
     public function handle()
     {
-        $filename = "{$this->executionId}.py";
-        Storage::disk('local')->put($filename, $this->code);
-        $filepath = Storage::disk('local')->path($filename);
+        $filename = "{$this->executionId}.py"; // création du fichier python (ex: "py_61a3b4c.py")
+        Storage::disk('local')->put($filename, $this->code); // sauvegarde du fichier avec le code dans 'Storage/app/'
+        $filepath = Storage::disk('local')->path($filename); // chemin complet du fichier
 
-        $process = new Process(['python', $filepath]);
-        $process->run();
+        $process = new Process(['python', $filepath]); // création du processus
+        $process->run(); // exécution du processus (python chemin/complet/du/fichier/py_61a3b4c.py.py)
 
+
+        // stockage du resultat dans le cache
         cache()->put(
-            "python_result_{$this->executionId}",
+            "python_result_{$this->executionId}", // clé unique pour le résultat (ex: "python_result_py_61a3b4c"
             [
-                'output' => $process->getOutput() ?: $process->getErrorOutput()
+                'output' => $process->getOutput() ?: $process->getErrorOutput() // getOutput retourne le resultat apres exécution et getErrorOutput l'erreur si l'exécution échoue
             ],
-            now()->addMinutes(5)
+            now()->addMinutes(5) //conserve le cache pendant 5 minutes
         );
 
-        Storage::disk('local')->delete($filename);
+        Storage::disk('local')->delete($filename); // suppréssion du fichier
     }
 }
