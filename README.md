@@ -1,1 +1,4 @@
-# Processus_et_File-d_attente-dans-LARAVEL
+# Processus et File d'attente dans LARAVEL
+
+## Par MBOUOMBOUO Abdel et EYENGA OTIE
+## GL3D
